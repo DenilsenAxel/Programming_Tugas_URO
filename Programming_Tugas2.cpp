@@ -17,24 +17,22 @@ void daftar_perintah(){
 	cout << "======================================================" << endl;
 }
 
-void input_polinom(){
-	for(int i = 0; max(derajat_polinom_1, derajat_polinom_2); i++){
-		koefisien_polinom_1[i] = 0;
-	}
-	for(int i = 0; max(derajat_polinom_1, derajat_polinom_2); i++){
-		koefisien_polinom_2[i] = 0;
-	}
+void input_polinom(bool turunan){
+	//polinom pertama
 	cout << "Input derajat polinom pertama : ";
 	cin >> derajat_polinom_1;
 	for(int i = 0; i<=derajat_polinom_1; i++){
 		cout << "Masukkan koefisien derajat ke - " << i << " : ";
 		cin >> koefisien_polinom_1[i];
 	}
-	cout << "Input derajat polinom kedua : ";
-	cin >> derajat_polinom_2;
-	for(int i = 0; i<=derajat_polinom_2; i++){
-		cout << "Masukkan koefisien derajat ke - " << i << " : ";
-		cin >> koefisien_polinom_2[i];
+	//polinom kedua hanya dibutuhkan jika perintahnya bukan turunan
+	if(!turunan){
+		cout << "Input derajat polinom kedua : ";
+		cin >> derajat_polinom_2;
+		for(int i = 0; i<=derajat_polinom_2; i++){
+			cout << "Masukkan koefisien derajat ke - " << i << " : ";
+			cin >> koefisien_polinom_2[i];
+		}
 	}
 }
 
@@ -91,7 +89,7 @@ void cetak2(){
 }
 
 void penjumlahan(){
-	input_polinom();
+	input_polinom(false);
 	for(int i = 0; i<=max(derajat_polinom_1, derajat_polinom_2); i++){
 		koefisien_polinom_hasil[i] = koefisien_polinom_1[i] + koefisien_polinom_2[i];
 	}
@@ -99,7 +97,7 @@ void penjumlahan(){
 }
 
 void pengurangan(){
-	input_polinom();
+	input_polinom(false);
 	for(int i = 0; i<=max(derajat_polinom_1, derajat_polinom_2); i++){
 		koefisien_polinom_hasil[i] = koefisien_polinom_1[i] - koefisien_polinom_2[i];
 	}
@@ -107,7 +105,7 @@ void pengurangan(){
 }
 
 void perkalian(){
-    input_polinom();
+    input_polinom(false);
     for(int i = 0; i<=derajat_polinom_1 ; i++){
         for(int j=0; j<=derajat_polinom_2; j++){
             koefisien_polinom_hasil[i+j] = koefisien_polinom_hasil[i+j] + koefisien_polinom_1[i]*koefisien_polinom_2[j];
@@ -115,6 +113,15 @@ void perkalian(){
         }
     }
     cetak2();
+}
+
+void turunan(){
+	input_polinom(true);
+	for(int i = 0; i<=derajat_polinom_1; i++){
+		koefisien_polinom_hasil[i] = koefisien_polinom_1[i+1] * (i+1);
+	}
+	derajat_polinom_1--;
+	cetak();
 }
 
 void kerja(int x){
@@ -128,7 +135,7 @@ void kerja(int x){
 		perkalian();
 	}
 	else if(x == 4){
-		//turunan();
+		turunan();
 	}
 	else{
 		cout << "Mohon maaf perintah tidak dapat dikenali" << endl;;
